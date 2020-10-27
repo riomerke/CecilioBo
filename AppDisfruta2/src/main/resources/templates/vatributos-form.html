@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/base_layouts :: head">
+<meta charset="utf-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<nav th:replace="layouts/base_layouts :: nav"></nav>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+				<div class="card"> 
+					<div class="card-header text-center"> <strong>AGREGAR VALOR DE ATRIBUTOS</strong></div>
+					<div class="card_body">
+						<form th:action="@{/vatributos/savevatributos}" th:object="${vatributosform}" method="post">
+					
+						
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('tatributos')} ? 'has-error'">
+								<label class="control-label" for="tatributos-datalist">Tipos de Atributos</label>
+								<input type="text" id="tatributos-datalist" th:value="${tatributosform[0].tatributo_desc}" class="form-control" list="tatributos-list" />
+								<datalist id="tatributos-list">
+									<option th:each="tatributo : ${tatributosform}" th:data-value="${tatributo.tatributo_id}" th:value="${tatributo.tatributo_desc}"></option>
+								</datalist>
+								<!-- El campo que realmente va vinculado a nuestro command object es este -->
+								<input type="hidden" id="tatributo" th:field="*{tatributos}" />
+								<span th:if="${#fields.hasErrors('tatributos')}" th:errors="*{tatributos}" class="help-block" id="tatributos-error">Errores</span>
+							</div>
+							
+							
+
+							<div class="form-group px-2 py-2" th:classappend="${#fields.hasErrors('vatributo_desc')} ? 'has-error'"> 
+							        <label>Descripcion del valor del atributo: </label>
+									<input type="text" class="form-control font-italic" th:field="*{vatributo_desc}"  
+										th:errorclass="'form-control alert-danger'" placeholder="Descripción del valor del atributo" /> 
+									<small class="form-text text-danger offset-3" th:if="${#fields.hasErrors('vatributo_desc')}" th:errors="*{vatributo_desc}"></small>
+							</div>
+							
+							<div class="form-group px-2 py-2" th:classappend="${#fields.hasErrors('default_fl')} ? 'has-error'">
+								<label>Valor Default: </label>
+								<div th:each="tipodefault : ${T(com.solvertic.disfruta.entity.ValoresDeAtributos).values()}">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" th:field="*{default_fl}" th:value="${tipodefault}" class="custom-control-input"> 
+										<label class="custom-control-label" th:for="${#ids.prev('default_fl')}" th:text="${tipodefault}">tipo</label>
+									</div>
+								</div>
+								<small class="form-text text-danger offset-3" th:if="${#fields.hasErrors('default_fl')}" th:errors="*{default_fl}"></small>
+							</div>
+							
+							<div class="row justify-content-center">
+								<button type="submit" class="btn btn-secondary col-md-5 my-2 ">
+									<i class="fas fa-save"><strong>Grabar</strong></i>
+								</button>
+							</div>
+							<input type="hidden" th:field="*{vatributo_id}" /> 	<!-- Se hace de esta manera para modificar un registro, sino, crea o inserta uno nuevo -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layouts/base_layouts :: footer"></footer>
+	<!-- autofocus -->
+</body>
+</html>

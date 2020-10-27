@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/base_layouts::head">
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+
+</head>
+<body>
+	<nav th:replace="layouts/base_layouts::nav"></nav>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<h3 class="text-center mb-3">Listado Tipos de Atributos</h3>
+				<div class="row justify-content-center mt-4 mb-4">
+					<a th:href="@{/tatributos/tatributosform}"><button class="btn btn-success p-1 pl-3 pr-3">AGREGAR TIPOS DE ATRIBUTOS</button></a>		
+				</div>
+				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+				<table class="table table-bordered table striped table-hover text-center">
+					<thead>
+						<tr>
+							<th>Atributo</th>
+							<th>Tipos</th>
+							<th>Personas</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${hometatributos}">
+							<td th:text="${item.tatributo_desc}"></td>
+							<td th:text="${item.tatributo_fl}"></td>
+							<td th:text="${item.persona_fl}"></td>
+								<td><a th:href="@{/tatributos/deletetatributos/}+${item.tatributo_id}" onclick="return confirm('Seguro de eliminar?')"><button class="btn btn-danger" >Eliminar</button></a>
+								<td><a th:href="@{/tatributos/updatetatributos/}+${item.tatributo_id}" onclick="return confirm('Seguro de modificar?')"><button class="btn btn-warning" >Modificar</button></a>					 
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layouts/base_layouts::footer"></footer>
+</body>
+</html>
